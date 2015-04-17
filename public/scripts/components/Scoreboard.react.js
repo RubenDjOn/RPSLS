@@ -12,8 +12,8 @@ var Scoreboard = React.createClass({
     },
     render: function() {
         return (
-            <div>
-                <ul className="button-group even-2 small-12 columns">
+            <div className="small-12 columns">
+                <ul className="button-group even-2">
                 <li id={1} className="button small secondary"><strong>Player</strong>&nbsp;
                     <span className="user-score">{this.props.userScore}</span>
                 </li>        

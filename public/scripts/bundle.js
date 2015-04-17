@@ -132,14 +132,14 @@ var App = React.createClass({displayName: "App",
                 React.createElement(Scoreboard, {userScore: this.state.userScore, 
                                 computerScore: this.state.computerScore}), 
                 React.createElement(Alert, {winner: this.state.winner}), 
-                React.createElement("div", {className: "medium-2 columns"}, " "), 
-                React.createElement("div", {className: "small-10 columns"}, 
-                    React.createElement("ul", {className: "small-block-grid-2"}, 
-                        React.createElement("li", {key: 1}, React.createElement(Card, {movement: this._getUserMovement(), player: "user"})), 
-                        React.createElement("li", {key: 2}, React.createElement(Card, {movement: this._getComputerMovement(this.state.computerMovement), player: "computer"}))
+                React.createElement("div", {className: "small-12 columns"}, 
+                    React.createElement("ul", {className: "small-block-grid-4"}, 
+                        React.createElement("li", {key: 1}, " "), 
+                        React.createElement("li", {key: 2}, React.createElement(Card, {movement: this._getUserMovement(), player: "user"})), 
+                        React.createElement("li", {key: 3}, React.createElement(Card, {movement: this._getComputerMovement(this.state.computerMovement), player: "computer"})), 
+                        React.createElement("li", {key: 4}, " ")
                     )
                 ), 
-                React.createElement("div", {className: "medium-2 columns"}, " "), 
                 React.createElement(ButtonsList, {buttons: this.props.buttons, _onButtonSelected: this._onButtonSelected}), 
                 React.createElement(CoordinatesPanel, {x: this.state.x, y: this.state.y})
             )
@@ -293,11 +293,11 @@ var Card = React.createClass({displayName: "Card",
     render: function() {
         return (
             React.createElement("div", null, 
-                React.createElement("h1", null, React.createElement("small", null, this.props.player.capitalizeFirstLetter())), 
+                React.createElement("h1", {className: "text-center"}, React.createElement("small", null, this.props.player.capitalizeFirstLetter())), 
                 React.createElement("div", {className: this._getClassName(), 
                     style: this._getCardStyle()}
                 ), 
-                React.createElement("h1", {className: "movement-text"}, this.props.movement.capitalizeFirstLetter())
+                React.createElement("h2", {className: "movement-text text-center"}, this.props.movement.capitalizeFirstLetter())
             )
         );
     }
@@ -353,8 +353,8 @@ var Scoreboard = React.createClass({displayName: "Scoreboard",
     },
     render: function() {
         return (
-            React.createElement("div", null, 
-                React.createElement("ul", {className: "button-group even-2 small-12 columns"}, 
+            React.createElement("div", {className: "small-12 columns"}, 
+                React.createElement("ul", {className: "button-group even-2"}, 
                 React.createElement("li", {id: 1, className: "button small secondary"}, React.createElement("strong", null, "Player"), " ", 
                     React.createElement("span", {className: "user-score"}, this.props.userScore)
                 ), 

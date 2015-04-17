@@ -24,11 +24,11 @@ var Card = React.createClass({
     render: function() {
         return (
             <div>
-                <h1><small>{this.props.player.capitalizeFirstLetter()}</small></h1>
+                <h1 className="text-center"><small>{this.props.player.capitalizeFirstLetter()}</small></h1>
                 <div className={this._getClassName()}                
                     style={this._getCardStyle()}>                
                 </div>
-                <h1 className="movement-text">{this.props.movement.capitalizeFirstLetter()}</h1>
+                <h2 className="movement-text text-center">{this.props.movement.capitalizeFirstLetter()}</h2>
             </div>
         );
     }

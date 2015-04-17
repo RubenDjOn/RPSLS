@@ -6,8 +6,7 @@ body {
   display: inline-block;
   height: 185px;
   width: 132px;
-  float: left;
-  margin-right: 40px;
+  float: left;  
 }
 
 .computer-card {

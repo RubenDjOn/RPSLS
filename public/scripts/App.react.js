@@ -97,15 +97,15 @@ var App = React.createClass({
             <div onMouseMove={this._onMouseMove}>                
                 <Scoreboard userScore={this.state.userScore} 
                                 computerScore={this.state.computerScore} />
-                <Alert winner={this.state.winner}/>                
-                <div className="medium-2 columns">&nbsp;</div>
-                <div className="small-10 columns">
-                    <ul className="small-block-grid-2">
-                        <li key={1}><Card movement={this._getUserMovement()} player="user" /></li>
-                        <li key={2}><Card movement={this._getComputerMovement(this.state.computerMovement)} player="computer" /></li>
+                <Alert winner={this.state.winner}/>
+                <div className="small-12 columns">
+                    <ul className="small-block-grid-4">
+                        <li key={1}>&nbsp;</li>
+                        <li key={2}><Card movement={this._getUserMovement()} player="user" /></li>
+                        <li key={3}><Card movement={this._getComputerMovement(this.state.computerMovement)} player="computer" /></li>
+                        <li key={4}>&nbsp;</li>
                     </ul>
-                </div>
-                <div className="medium-2 columns">&nbsp;</div>  
+                </div>                
                 <ButtonsList buttons={this.props.buttons} _onButtonSelected={this._onButtonSelected}/>
                 <CoordinatesPanel x={this.state.x} y={this.state.y} />                
             </div>
