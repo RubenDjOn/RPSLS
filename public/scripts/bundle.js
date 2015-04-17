@@ -36,13 +36,16 @@ if (typeof module !== 'undefined' && module.exports) {
 
 /** @jsx React.DOM */
 
-var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null),    
-    ButtonsList = require('./components/ButtonsList.react'),
+var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+
+var ButtonsList = require('./components/ButtonsList.react'),
     CoordinatesPanel = require('./components/CoordinatesPanel.react'),
     Alert = require('./components/Alert.react'),
     Card = require('./components/Card.react'),
     Scoreboard = require('./components/Scoreboard.react'),
     Game = require('./logic/Game');
+    /*mui = require('material-ui'),
+    FlatButton = mui.FlatButton;*/
 
 var App = React.createClass({displayName: "App",
 
@@ -55,18 +58,15 @@ var App = React.createClass({displayName: "App",
        _getComputerMovement: React.PropTypes.func,
        _setComputerMovement: React.PropTypes.func,
        _increaseScore: React.PropTypes.func,
-    },
-    //componentDidMount: function(){
-    //    this.state.game.setComputerMovement('rock');
-    //},
+    },    
     getDefaultProps: function(){
         return {
             buttons: [
-                {'id':'rock','name':'Rock'},
-                {'id':'paper', 'name': 'Paper'},
-                {'id':'scissors', 'name': 'Scissors'},
-                {'id':'lizard', 'name': 'Lizard'},
-                {'id':'spock', 'name': 'Spock'},
+                {'id':'rock','name':'Rock', 'class':'small warning'},
+                {'id':'paper', 'name': 'Paper', 'class':'small info'},
+                {'id':'scissors', 'name': 'Scissors', 'class':'small secondary'},
+                {'id':'lizard', 'name': 'Lizard', 'class':'small success'},
+                {'id':'spock', 'name': 'Spock', 'class':'small '},
             ]
         };        
     },
@@ -129,16 +129,18 @@ var App = React.createClass({displayName: "App",
     render: function() {
         return (
             React.createElement("div", {onMouseMove: this._onMouseMove}, 
-                React.createElement(ButtonsList, {buttons: this.props.buttons, _onButtonSelected: this._onButtonSelected}), 
-                React.createElement("div", {className: "row"}, 
-                    React.createElement(Scoreboard, {userScore: this.state.userScore, 
-                                computerScore: this.state.computerScore})
-                ), 
-                React.createElement("div", {className: "row"}, 
-                    React.createElement(Card, {movement: this._getUserMovement(), player: "user"}), 
-                    React.createElement(Card, {movement: this._getComputerMovement(this.state.computerMovement), player: "computer"})
-                ), 
+                React.createElement(Scoreboard, {userScore: this.state.userScore, 
+                                computerScore: this.state.computerScore}), 
                 React.createElement(Alert, {winner: this.state.winner}), 
+                React.createElement("div", {className: "medium-2 columns"}, " "), 
+                React.createElement("div", {className: "small-10 columns"}, 
+                    React.createElement("ul", {className: "small-block-grid-2"}, 
+                        React.createElement("li", {key: 1}, React.createElement(Card, {movement: this._getUserMovement(), player: "user"})), 
+                        React.createElement("li", {key: 2}, React.createElement(Card, {movement: this._getComputerMovement(this.state.computerMovement), player: "computer"}))
+                    )
+                ), 
+                React.createElement("div", {className: "medium-2 columns"}, " "), 
+                React.createElement(ButtonsList, {buttons: this.props.buttons, _onButtonSelected: this._onButtonSelected}), 
                 React.createElement(CoordinatesPanel, {x: this.state.x, y: this.state.y})
             )
         );
@@ -156,31 +158,42 @@ module.exports = App;
 /** @jsx React.DOM */
 
 var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var classNames = require('classnames');
 
 var Alert = React.createClass({displayName: "Alert",
     propTypes: {
-        winner: React.PropTypes.string
+        winner: React.PropTypes.string,
+        _getClasses: React.PropTypes.func
     },
-    render: function() {
-        var classNames = require('classnames');                
-        var classes = classNames({
+    _getClasses: function (){
+        var classes = 'hide';
+        
+        if (this._winnerExists()){
+            classes = classNames({
             'alert-box': true,
-            'radious': true,
-            'small-6': true,
-            'columns': true,
+            'radius': true,
+            'text-center': true,
             'success': (this.props.winner=='user'),
             'user-wins': (this.props.winner=='user'),
             'alert': (this.props.winner=='computer'),
             'computer-wins': (this.props.winner=='computer')
-        });
+            });
+        }
+
+        return classes;
+    },
+    _winnerExists: function(){
+        return (this.props.winner!=='');
+    },
+    render: function() {
+        var classes = this._getClasses();
 
         return (
-            React.createElement("div", {className: "row"}, 
+            React.createElement("div", {className: "small-12 columns"}, 
               React.createElement("div", {"data-alert": true, className: classes}, 
-                React.createElement("p", null, "El ganador de esta ronda es ", React.createElement("b", null, this.props.winner)), 
-                React.createElement("p", null, "Enhorabuena, has ganado")
+                React.createElement("h4", null, "El ganador de esta ronda es ", React.createElement("b", null, this.props.winner))
               )
-            )
+            )            
         );
     }
 
@@ -191,6 +204,7 @@ module.exports = Alert;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"classnames":1}],4:[function(require,module,exports){
 (function (global){
+'use strict';
 /** @jsx React.DOM */
 
 var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
@@ -218,9 +232,9 @@ module.exports = Button;
 'use strict';
 
 /** @jsx React.DOM */
+var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
 
-var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null),
-    Button = require('./Button.react');
+var Button = require('./Button.react');
 
 var ButtonsList = React.createClass({displayName: "ButtonsList",
     
@@ -231,15 +245,18 @@ var ButtonsList = React.createClass({displayName: "ButtonsList",
     },
     _getButtonsFormatted: function(){       
       return this.props.buttons.map(function(element, index){
-        return React.createElement(Button, {_onClick: this.props._onButtonSelected.bind(null, element.id), 
-                className: element.id, name: element.name, 
-                key: index})
+        return React.createElement("li", {key: index}, 
+                  React.createElement(Button, {_onClick: this.props._onButtonSelected.bind(null, element.id), 
+                  className: element.id+' '+element.class, name: element.name})
+                )
       }, this);
     },
     render: function() {
         return (
-                React.createElement("div", {className: "row"}, 
-                  this._getButtonsFormatted()
+                React.createElement("div", {className: "small-12 columns text-center"}, 
+                  React.createElement("ul", {className: "button-group radious stack-for-small"}, 
+                    this._getButtonsFormatted()
+                    )
                 )
         );
     }
@@ -253,21 +270,34 @@ module.exports = ButtonsList;
 'use strict';
 /** @jsx React.DOM */
 
+var tools = require('../tools/utils.js');
+
 var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
 
 var Card = React.createClass({displayName: "Card",
     propTypes: {
         movement: React.PropTypes.string,
         player: React.PropTypes.string,
-        _getClassName: React.PropTypes.func
+        _getClassName: React.PropTypes.func,
+        _getCardStyle: React.PropTypes.func
     },
     _getClassName: function(){        
-        return this.props.player + '-card-' + this.props.movement;
+        return this.props.player + '-card card ' + this.props.movement;
+    },
+    _getCardStyle: function(){        
+        //return '/img/' + this.props.movement + '-card.png';
+        return ({
+            backgroundImage: 'url(/img/' + this.props.movement + '-card.png)'
+        });
     },
     render: function() {
         return (
-            React.createElement("div", {className: this._getClassName()}, 
-                this.props.player, ": ", this.props.movement
+            React.createElement("div", null, 
+                React.createElement("h1", null, React.createElement("small", null, this.props.player.capitalizeFirstLetter())), 
+                React.createElement("div", {className: this._getClassName(), 
+                    style: this._getCardStyle()}
+                ), 
+                React.createElement("h1", {className: "movement-text"}, this.props.movement.capitalizeFirstLetter())
             )
         );
     }
@@ -277,7 +307,7 @@ var Card = React.createClass({displayName: "Card",
 module.exports = Card;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],7:[function(require,module,exports){
+},{"../tools/utils.js":11}],7:[function(require,module,exports){
 (function (global){
 /** @jsx React.DOM */
 
@@ -323,15 +353,15 @@ var Scoreboard = React.createClass({displayName: "Scoreboard",
     },
     render: function() {
         return (
-            React.createElement("div", {className: "row"}, 
-              React.createElement("div", {className: "small-2 columns"}, 
-                React.createElement("div", null, "Jugador"), 
-                React.createElement("div", {"data-alert": true, className: "user-score alert-box success"}, this.props.userScore)
-              ), 
-              React.createElement("div", {className: "small-2 columns end"}, 
-                React.createElement("div", null, "Ordenador"), 
-                React.createElement("div", {"data-alert": true, className: "computer-score alert-box alert"}, this.props.computerScore)
-              )
+            React.createElement("div", null, 
+                React.createElement("ul", {className: "button-group even-2 small-12 columns"}, 
+                React.createElement("li", {id: 1, className: "button small secondary"}, React.createElement("strong", null, "Player"), " ", 
+                    React.createElement("span", {className: "user-score"}, this.props.userScore)
+                ), 
+                React.createElement("li", {id: 2, className: "button small secondary"}, React.createElement("strong", null, "Computer"), " ", 
+                    React.createElement("span", {className: "computer-score"}, this.props.computerScore)
+                )
+                )
             )
         );
     }
@@ -342,7 +372,10 @@ module.exports = Scoreboard;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],9:[function(require,module,exports){
+(function (global){
 'use strict';
+
+var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
 
 module.exports = function Game(){
 
@@ -378,12 +411,16 @@ module.exports = function Game(){
 };
 
 
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],10:[function(require,module,exports){
 (function (global){
-'use strict';
+'use strict'; 
 
-var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null),
+var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null),    
+    //injectTapEventPlugin = require("react-tap-event-plugin"),
     App = require('./App.react');
+
+//injectTapEventPlugin();
 
 React.render(    
     React.createElement(App, null),
@@ -391,4 +428,11 @@ React.render(
     );
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./App.react":2}]},{},[10]);
+},{"./App.react":2}],11:[function(require,module,exports){
+'use strict';
+
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
+},{}]},{},[10]);

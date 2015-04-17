@@ -2,13 +2,16 @@
 
 /** @jsx React.DOM */
 
-var React = require('react'),    
-    ButtonsList = require('./components/ButtonsList.react'),
+var React = require('react');
+
+var ButtonsList = require('./components/ButtonsList.react'),
     CoordinatesPanel = require('./components/CoordinatesPanel.react'),
     Alert = require('./components/Alert.react'),
     Card = require('./components/Card.react'),
     Scoreboard = require('./components/Scoreboard.react'),
     Game = require('./logic/Game');
+    /*mui = require('material-ui'),
+    FlatButton = mui.FlatButton;*/
 
 var App = React.createClass({
 
@@ -21,18 +24,15 @@ var App = React.createClass({
        _getComputerMovement: React.PropTypes.func,
        _setComputerMovement: React.PropTypes.func,
        _increaseScore: React.PropTypes.func,
-    },
-    //componentDidMount: function(){
-    //    this.state.game.setComputerMovement('rock');
-    //},
+    },    
     getDefaultProps: function(){
         return {
             buttons: [
-                {'id':'rock','name':'Rock'},
-                {'id':'paper', 'name': 'Paper'},
-                {'id':'scissors', 'name': 'Scissors'},
-                {'id':'lizard', 'name': 'Lizard'},
-                {'id':'spock', 'name': 'Spock'},
+                {'id':'rock','name':'Rock', 'class':'small warning'},
+                {'id':'paper', 'name': 'Paper', 'class':'small info'},
+                {'id':'scissors', 'name': 'Scissors', 'class':'small secondary'},
+                {'id':'lizard', 'name': 'Lizard', 'class':'small success'},
+                {'id':'spock', 'name': 'Spock', 'class':'small '},
             ]
         };        
     },
@@ -94,18 +94,20 @@ var App = React.createClass({
     },
     render: function() {
         return (
-            <div onMouseMove={this._onMouseMove}>
-                <ButtonsList buttons={this.props.buttons} _onButtonSelected={this._onButtonSelected}/>
-                <div className="row">
-                    <Scoreboard userScore={this.state.userScore} 
+            <div onMouseMove={this._onMouseMove}>                
+                <Scoreboard userScore={this.state.userScore} 
                                 computerScore={this.state.computerScore} />
-                </div>
-                <div className="row">
-                    <Card movement={this._getUserMovement()} player="user" />
-                    <Card movement={this._getComputerMovement(this.state.computerMovement)} player="computer" />
-                </div>                
                 <Alert winner={this.state.winner}/>                
-                <CoordinatesPanel x={this.state.x} y={this.state.y} />
+                <div className="medium-2 columns">&nbsp;</div>
+                <div className="small-10 columns">
+                    <ul className="small-block-grid-2">
+                        <li key={1}><Card movement={this._getUserMovement()} player="user" /></li>
+                        <li key={2}><Card movement={this._getComputerMovement(this.state.computerMovement)} player="computer" /></li>
+                    </ul>
+                </div>
+                <div className="medium-2 columns">&nbsp;</div>  
+                <ButtonsList buttons={this.props.buttons} _onButtonSelected={this._onButtonSelected}/>
+                <CoordinatesPanel x={this.state.x} y={this.state.y} />                
             </div>
         );
     }

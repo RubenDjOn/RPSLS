@@ -12,15 +12,15 @@ var Scoreboard = React.createClass({
     },
     render: function() {
         return (
-            <div className="row">
-              <div className="small-2 columns">
-                <div>Jugador</div>
-                <div data-alert className="user-score alert-box success">{this.props.userScore}</div>        
-              </div>      
-              <div className="small-2 columns end">        
-                <div>Ordenador</div>
-                <div data-alert className="computer-score alert-box alert">{this.props.computerScore}</div>
-              </div>
+            <div>
+                <ul className="button-group even-2 small-12 columns">
+                <li id={1} className="button small secondary"><strong>Player</strong>&nbsp;
+                    <span className="user-score">{this.props.userScore}</span>
+                </li>        
+                <li id={2} className="button small secondary"><strong>Computer</strong>&nbsp;
+                    <span className="computer-score">{this.props.computerScore}</span>
+                </li>
+                </ul>
             </div>
         );
     }

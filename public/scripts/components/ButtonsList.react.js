@@ -1,9 +1,9 @@
 'use strict';
 
 /** @jsx React.DOM */
+var React = require('react');
 
-var React = require('react'),
-    Button = require('./Button.react');
+var Button = require('./Button.react');
 
 var ButtonsList = React.createClass({
     
@@ -14,15 +14,18 @@ var ButtonsList = React.createClass({
     },
     _getButtonsFormatted: function(){       
       return this.props.buttons.map(function(element, index){
-        return <Button _onClick={this.props._onButtonSelected.bind(null, element.id)}
-                className={element.id} name={element.name} 
-                key={index} />
+        return <li key={index}>
+                  <Button _onClick={this.props._onButtonSelected.bind(null, element.id)}
+                  className={element.id+' '+element.class} name={element.name} />
+                </li>
       }, this);
     },
     render: function() {
         return (
-                <div className="row">
-                  {this._getButtonsFormatted()}                  
+                <div className="small-12 columns text-center">
+                  <ul className="button-group radious stack-for-small">
+                    {this._getButtonsFormatted()}
+                    </ul>
                 </div>
         );
     }

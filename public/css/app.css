@@ -1,0 +1,25 @@
+body {
+  background: url('/img/background.png');
+}
+
+.card {
+  display: inline-block;
+  height: 185px;
+  width: 132px;
+  float: left;
+  margin-right: 40px;
+}
+
+.computer-card {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+.movement-text{
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+}

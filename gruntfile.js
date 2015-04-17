@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'), 
@@ -16,6 +18,10 @@ module.exports = function(grunt) {
         files: ['public/scripts/**/*.js'],
         tasks: ['default']
       },
+      styles: {
+        files: ['src/less/main.less'], // which files to watch
+        tasks: ['less'],        
+      },
       options: {
         nospawn: true
       }
@@ -31,13 +37,27 @@ module.exports = function(grunt) {
         },
         src: ['tests/spec/*.js']
       }
+    },
+
+    less: {
+      development: {
+        options: {
+          compress: true,
+          yuicompress: true,
+          optimization: 2
+        },
+        files: {
+          'public/css/material-ui.css': 'src/less/main.less'
+        }
+      }
     }
-  });
- 
+  });  
+  
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-browserify');  
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-contrib-less');
  
-  grunt.registerTask('default', ['browserify', 'watch', 'mochaTest']);
+  grunt.registerTask('default', ['browserify', 'watch', 'mochaTest', 'less']);
 
 };
