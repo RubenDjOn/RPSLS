@@ -18,7 +18,7 @@ var Card = React.createClass({
     _getCardStyle: function(){        
         //return '/img/' + this.props.movement + '-card.png';
         return ({
-            backgroundImage: 'url(/img/' + this.props.movement + '-card.png)'
+            backgroundImage: 'url(./img/' + this.props.movement + '-card.png)'
         });
     },
     render: function() {
